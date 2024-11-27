@@ -5,7 +5,7 @@ import { CustomerService } from "src/service/customerService";
 export class CustomerController{
     constructor(@Inject()private customerService:CustomerService){}
 
-    @Get('/all')
+    @Get('all')
     async findAllCustomers():Promise<any>{
         return await this.customerService.findAllCustomers();
     }
