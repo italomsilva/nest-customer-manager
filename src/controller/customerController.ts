@@ -1,13 +1,18 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from "@nestjs/common";
 import { CustomerService } from "src/service/customerService";
 
 @Controller('customer')
 export class CustomerController{
     constructor(@Inject()private customerService:CustomerService){}
 
-    @Get()
+    @Get('/all')
     async findAllCustomers():Promise<any>{
         return await this.customerService.findAllCustomers();
+    }
+
+    @Get()
+    async findCustomers(@Query('page') page:number, @Query('limit') limit:number):Promise<any>{
+        return await this.customerService.findCustomers(page, limit);
     }
 
     @Get('/:customerNumber')
@@ -22,7 +27,7 @@ export class CustomerController{
         return result;
     }
 
-    @Post('update')
+    @Put('update')
     async updateCustomer(@Body() body):Promise<any>{
         const result = await this.customerService.updateCustomer(body)
         return result;
@@ -33,7 +38,4 @@ export class CustomerController{
         const result = await this.customerService.deleteCustomer(parseInt(param.customerNumber, 10), body);
         return result;
     }
-
-
-
 }

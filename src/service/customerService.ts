@@ -23,6 +23,18 @@ export class CustomerService {
     return await this.customerModel.findOne({ customerNumber: customerNumber });
   }
 
+  async findCustomers(page:number, limit:number){
+    const skip = (page-1)*limit;
+    const customers = await this.customerModel.find().skip(skip).limit(limit).exec();
+    const countTotal = await this.customerModel.countDocuments();
+    return {
+        customers,
+        currentPage: page,
+        totalPages: Math.ceil(countTotal/limit),
+        totalItems: countTotal
+    }
+  }
+
   async createCustomer(input: CreateCustomerInput): Promise<Customer> {
     const newCustomer = new this.customerModel(input);
     return newCustomer.save();
