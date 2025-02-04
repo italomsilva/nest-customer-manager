@@ -1,5 +1,5 @@
 ## Nest-Customer-Manager
-Crud de clientes utilizano nest
+Crud de clientes utilizando nest e mongoDb
 
 
 
